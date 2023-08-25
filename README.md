@@ -11,11 +11,9 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Prerequisites and installing](#prerequisites_and_installing)
-- [Deployment](#deployment)
-- [Usage](#usage)
 - [Built Using](#built_using)
 - [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
+
 
 ## 🧐 About <a name = "about"></a>
 The objective of this project is to assess the performance of the Beagle 5.4 imputation algorithm on single-cell SNP array data. Single-cell SNP array data is less reliable compared to that obtained from bulk samples (gDNA) due to the altered signal received from the array technology, which is often not properly recognized. This results in a higher prevalence of missing values and values that do not match the more reliable ones found in gDNA. Therefore, an initial validation approach of the algorithm involves considering all autosomes, masking different percentages of the SNPs, considering 25 different lists of positions present in the array data, re-imputing them, and comparing the condition before and after imputation using similarity coefficients.
@@ -42,13 +40,7 @@ source activate imp_proj
 ```
 python main.py
 ```
-## 🚀 Deployment <a name = "deployment"></a>
-Add notes...
 
-## 🎈 Usage <a name="usage"></a>
-Add notes about how to use the system.
-
-Add additional notes about how to deploy this on a live system.
 ## ⛏️ Built Using <a name = "built_using"></a>
 - [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html "Conda") - Conda environment
 - [Git](https://github.com/git-guides/install-git "Git") - Git system
@@ -56,5 +48,3 @@ Add additional notes about how to deploy this on a live system.
 - [Beagle5.4](https://faculty.washington.edu/browning/beagle/beagle.html) - Imputation algorithm
 ## ✍️ Authors <a name = "authors"></a>
 - [@marcoreverenna](https://github.com/marcoreverenna)
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-Add notes...
