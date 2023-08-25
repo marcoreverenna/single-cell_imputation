@@ -55,7 +55,6 @@ Add additional notes about how to deploy this on a live system.
 - [GenomeDK](https://genome.au.dk/) - Server Environment
 - [Beagle5.4](https://faculty.washington.edu/browning/beagle/beagle.html) - Imputation algorithm
 ## ✍️ Authors <a name = "authors"></a>
-- [@marcoreverenna](https://github.com/marcoreverenna) -
-- [@ivanvogel](https://github.com/puko818) -
+- [@marcoreverenna](https://github.com/marcoreverenna)
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 Add notes...
