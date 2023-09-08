@@ -499,7 +499,7 @@ def calculate_statistics(group, path_result):
         median_scores = median_scores.rename(columns={'j_score_post': 'median_scores_post', 'j_score_pre': 'median_scores_pre'})
         # calculate the maximum
         max_scores = filtered_table.groupby(group)[['j_score_pre', 'j_score_post']].max()
-        max_scores = max_scores.rename(columns={'j_score_post': 'mex_scores_post', 'j_score_pre': 'max_scores_pre'})
+        max_scores = max_scores.rename(columns={'j_score_post': 'max_scores_post', 'j_score_pre': 'max_scores_pre'})
         # calculate the mainimum
         min_scores = filtered_table.groupby(group)[['j_score_pre', 'j_score_post']].min()
         min_scores = min_scores.rename(columns={'j_score_post': 'min_scores_post', 'j_score_pre': 'min_scores_pre'})

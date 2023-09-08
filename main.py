@@ -18,14 +18,14 @@ import my_module as module
 module.pd.options.mode.chained_assignment = None
     
 # define the paths
-data_dir = '../test1/data/'
-map_dir = '../test1/map/'
-plots_dir = '../test1/plots/'
-results_dir = '../test1/results/'
-output_dir = '../test1/data/output/'
-reference_dir = '../test1/reference/'
-ref_pos_dir = '../test1/reference_positions/'
-processed_dir = '../test1/data/processed/'
+data_dir = '../validation_singlecell/data/'
+map_dir = '../validation_singlecell/map/'
+plots_dir = '../validation_singlecell/plots/'
+results_dir = '../validation_singlecell/results/'
+output_dir = '../validation_singlecell/data/output/'
+reference_dir = '../validation_singlecell/reference/'
+ref_pos_dir = '../validation_singlecell/reference_positions/'
+processed_dir = '../validation_singlecell/data/processed/'
     
 # define global variables
 chromosomes_int = list(range(1,23))
@@ -50,7 +50,6 @@ for directory in directories_results:
     if not module.os.path.exists(dir_path):
         module.os.makedirs(dir_path)
     
-# create the folders inside data directory
 # create the directories to store new processed data and final outcomes
 directories_data = ['processed', 'output']
 for directory in directories_data:
@@ -162,7 +161,7 @@ module.calculate_statistics(group='sample',
                             )
 module.calculate_frequencies(percentages=[10, 20],
                              path_result=results_dir
-                             )
+                            )
     
       
 #readme_content =
