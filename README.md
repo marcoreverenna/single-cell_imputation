@@ -28,7 +28,7 @@ As previously mentioned, it is advisable to execute the script on the genomedk c
 ```
 conda env create --name imp_proj --file environment.yml
 ```
-2. Request resources
+2. Request resources: it is reccomended to ask more CPUs and time, imputation requires a lot of time 
 ```
 srun --job-name=imputation_beagle --account your-account --partition normal --mem-per-cpu 10G --cpus-per-task 10 --time 1:00:00 --pty /bin/bash
 ```
