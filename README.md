@@ -1,4 +1,4 @@
-# Validation of single-cell using Beagle5.4 algorithm
+# Validation of Beagle5.4 algorithm on single-cell SNP-array data
 
 <p align="left"> 
     <br> Validation of imputation algorithm in single-cell SNP array data
