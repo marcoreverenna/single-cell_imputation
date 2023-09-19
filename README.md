@@ -1,7 +1,7 @@
 # Validation of Beagle5.4 algorithm on single-cell SNP-array data
 
 <p align="left"> 
-    <br> Marco Reverenna 
+    <br> Marco Reverenna - [About me](https://www.linkedin.com/in/marco-reverenna-151787190/)
 </p>
 
 ---
