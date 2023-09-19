@@ -13,28 +13,38 @@ __status__ = Dev
 
 import my_module as module
 
-
 # avoid warning
 module.pd.options.mode.chained_assignment = None
     
 # define the paths
-data_dir = '../validation_singlecell/data/'
-map_dir = '../validation_singlecell/map/'
-plots_dir = '../validation_singlecell/plots/'
-results_dir = '../validation_singlecell/results/'
-output_dir = '../validation_singlecell/data/output/'
-reference_dir = '../validation_singlecell/reference/'
-ref_pos_dir = '../validation_singlecell/reference_positions/'
-processed_dir = '../validation_singlecell/data/processed/'
-    
+data_dir = 'data/'
+processed_dir = 'data/processed/'
+output_dir = 'data/output/'
+plots_dir = 'plots/'
+results_dir = 'results/'
+map_dir = 'map/'
+reference_dir = 'reference/'
+ref_pos_dir = 'reference_positions/'
+
+
 # define global variables
 chromosomes_int = list(range(1,23))
 chromosomes_str = [str(chrom) for chrom in chromosomes_int]
-column_names = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT', 'pairing_1', 'pairing_2', 'pairing_3', 'pairing_4', 'pairing_5']
-pairings = ['pairing_1', 'pairing_2', 'pairing_3', 'pairing_4', 'pairing_5']
 seeds = range(1, 3)
-percentages = ['10','20']
-            
+percentages = ['10']
+
+sc_samples = ['201666260058_R01C01','201285550024_R06C01',
+              '201285550024_R04C01', '201285550024_R02C01',
+              '201666260058_R02C01', '201285550024_R06C02',
+              '201285550024_R04C02', '201285550024_R02C02',
+              '201666260058_R03C01', '201662330032_R06C01',
+              '201662330032_R04C01', '201662330032_R02C01',
+              '201666260058_R04C01', '201662330032_R06C02',
+              '201662330032_R04C02', '201662330032_R02C02',
+              '201666260058_R05C01', '201662330098_R06C01',
+              '201662330098_R04C01', '201662330098_R02C01']
+
+
 # create the output and reference_positions directories
 new_folders = ['reference_positions', 'plots', 'reference','map']
 for directory in new_folders:
@@ -68,107 +78,135 @@ for directory in directories_processed:
     if not module.os.path.exists(dir_path):
         module.os.makedirs(dir_path)
         
-    
+   
 # run the functions from module 
-
+print('Running module: download_unzip_map')
 module.download_unzip_map("https://bochet.gcc.biostat.washington.edu/beagle/genetic_maps/plink.GRCh37.map.zip", "map")
 
+print('Running module: download_chromosomes_vcf')
 module.download_chromosomes_vcf()
 
-module.concatenate_vcf(file1= 'gDNA_1', file2='gDNA_2', file3='gDNA_3', file4='gDNA_4', file5='gDNA_5', kind='gDNA', path_data= data_dir)
+print('Running module: concatenate_SC')
+module.concatenate_SC(files = ["SC_129", "SC_131", "SC_133", "SC_135", "SC_137",
+                               "SC_139", "SC_141", "SC_143", "SC_145", "SC_147",
+                               "SC_149", "SC_151", "SC_153", "SC_155", "SC_157",
+                               "SC_159", "SC_161", "SC_163", "SC_165", "SC_167"],
+                               path_data = data_dir,
+                               output_filename = "GM12878_SC_merged.vcf.gz"
+                               )
 
-module.concatenate_vcf(file1='SC_129', file2='SC_130', file3='SC_131', file4='SC_132', file5='SC_133', kind='SC', path_data= data_dir)
- 
-module.consensus_gDNA_dataframe(path_processed= processed_dir)
-
+print('Running module: filtering_all_SC')
 module.filtering_all_SC(path_processed = processed_dir)
 
+print('Running module: splitting_chromosomes SC')
 for chromosome in chromosomes_str:
-    module.splitting_chromosomes(kind='consensus_gDNA',
+    module.splitting_chromosomes(kind='SC',
                                  chrom = chromosome,
-                                 path_data = data_dir,
-                                 directory= 'data/processed/gDNA_chroms'
-                                 )
-    module.splitting_chromosomes(kind='merged_SC',
-                                 chrom = chromosome,
-                                 path_data = data_dir, 
-                                 directory= 'data/processed/SC_chroms'
-                                 )
-
+                                 path_processed = processed_dir
+                                 )    
+                                 
+print('Running module: splitting_chromosomes gDNA')    
 for chromosome in chromosomes_str:
+    module.splitting_chromosomes(kind='gDNA',
+                                 chrom = chromosome,
+                                 path_processed = processed_dir
+                                 )  
+  
+print('Running module: dataset_arrangement')            
+for chromosome in chromosomes_str:
+    print(f'chromosome: {chromosome}')
     for percentage in percentages:
         for sd in seeds:
             module.dataset_arrangement(chrom=chromosome,
                                        seed=sd,
-                                       perc=percentage,
+                                       path = processed_dir,
                                        path_result = results_dir,
-                                       path_data = data_dir
+                                       perc='10'
                                        )
-       
-module.similarity_before(dictionary={'0/0': 0, '0/1': 1, '1/0': 1, '1/1': 2, '1/2': 3, '2/2': 4, './.': 5},
+
+print('Running module: similarity_recall_before')
+module.similarity_recall_before(dictionary={'0/0': 0, '0/1': 1, '1/0': 1, '1/1': 2, '1/2': 3, '2/2': 4, './.': 5},
                          seeds= range(1, 3),
-                         percentages= ['10','20'],
                          path_processed= processed_dir,
-                         path_result= results_dir
+                         path_result= results_dir,
+                         sc_samples= sc_samples
                          )
 
 
+print('Running module: get_snparray_positions')
 module.get_snparray_positions(path_vcf='data/processed/GM12878_consensus_gDNA.vcf.gz')
 
+print('Running module: get_reference_positions')
 module.get_reference_positions()
 
+print('Running module: difference_positions')
 module.difference_positions()
-    
+
+print('Running module: imputation')
 for chromosome in chromosomes_str:
     for sd in seeds:
         for percentage in percentages:
             module.imputation(chrom=chromosome,
                               seed=sd,
-                              perc=percentage,
                               path_reference = reference_dir,
                               path_map= map_dir,
                               path_data= data_dir,
                               path_output = output_dir,
                               path_positions = ref_pos_dir
                               )        
-    
-module.similarity_after(dictionary_imp= {'0|0': 0, '0|1': 1, '1|0': 1, '1|1': 2, '1|2': 3, '2|1': 3, '2|2': 4,'2|0': 5, '0|2': 5},
+print('Running module: similarity_recall_after')    
+module.similarity_recall_after(dictionary_imp= {'0|0': 0, '0|1': 1, '1|0': 1, '1|1': 2, '1|2': 3, '2|1': 3, '2|2': 4,'2|0': 5, '0|2': 5},
                         dictionary_gen= {'0/0': 0, '0/1': 1, '1/0': 1, '1/1': 2, '1/2': 3, '2/1': 3, '2/2': 4,'2/0': 5, '0/2': 5},
-                        seeds= range(1,3),
-                        percentages= ['10','20'],
+                        seeds= range(1, 3),
                         path_output= output_dir,
                         path_processed= processed_dir,
-                        path_result =results_dir
+                        path_result =results_dir,
+                        sc_samples=sc_samples
                         )
-    
+   
+print('Running module: concat_tables')    
+module.concat_tables(path_result=results_dir, sc_samples = sc_samples)
 
-module.concat_tables(path_result=results_dir)
-    
-module.create_violin_plot(results_dir,
-                          plots_dir,
-                          20
-                          )
-module.create_violin_plot(results_dir,
-                          plots_dir,
-                          10
-                          )
+print('Running module: violin_plot')    
+module.violin_plot(table_delta = module.pd.read_excel(module.os.path.join(results_dir, 'tables/similarity_recall_delta.xlsx')),
+            variable = 'chromosome',
+            variable_title = 'chromosomes',
+            y_max=1,
+            y_min=0.2,
+            dir_results = results_dir,
+            dir_plots= plots_dir
+            )
 
-module.calculate_statistics(group='chromosome',
-                            path_result=results_dir
+module.violin_plot(table_delta = module.pd.read_excel(module.os.path.join(results_dir, 'tables/similarity_recall_delta.xlsx')),
+            variable = 'sample_name',
+            variable_title = 'samples',
+            y_max=1,
+            y_min=0.2,
+            dir_results = results_dir,
+            dir_plots= plots_dir
+            )
+
+
+print('Running module: violin_plot')    
+module.calculate_statistics(table = module.pd.read_excel(module.os.path.join(results_dir, 'tables/similarity_recall_delta.xlsx')),
+                            group = 'chromosome',
+                            path_result = results_dir
                             )
-module.calculate_statistics(group='sample',
-                            path_result=results_dir
+
+module.calculate_statistics(table = module.pd.read_excel(module.os.path.join(results_dir, 'tables/similarity_recall_delta.xlsx')),
+                            group = 'sample_name',
+                            path_result = results_dir
                             )
-module.calculate_frequencies(percentages=[10, 20],
-                             path_result=results_dir
-                            )
-    
       
+      
+#module.calculate_frequencies(table = module.pd.read_excel(module.os.path.join(results_dir, 'tables/similarity_recall_delta.xlsx')),
+#                             percentages=[10, 20],
+#                             path_result=results_dir)
 #readme_content =
 # Reference position informations.
 #In this folder are present all the files created considering the SNP positions that we exclude from each chromosome.
 #This way the imputation analysis save several time considering only SNPs of the SNP array and so we can avoid to filter positions subsequently.
-#"""
+"""
 #folder_path = 'reference_positions' 
 #readme_file_path = os.path.join(folder_path, 'README.txt')
 #with open(readme_file_path, 'w') as readme_file:
@@ -180,3 +218,4 @@ module.calculate_frequencies(percentages=[10, 20],
 #    # wget to download the files
 #    command = ["wget", "-c", "--timeout=120", "--waitretry=60", "--tries=10000", "--retry-connrefused", "-P", "reference", url]
 #    module.subprocess.run(command)
+"""
