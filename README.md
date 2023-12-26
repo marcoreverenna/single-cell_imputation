@@ -20,15 +20,16 @@ e recall per comparare le situazione che precede e segue l'imputazione. Finally,
 dei plots per mostrare i risultati ottenuti.
 
 ### Getting started <a name = "getting-started"></a>
-1. Set up the conda environment so install required libraries (specified in `requirements.txt` file).
-2. Use the functions from `get_gdna_consensus.py` to manipulate and analyze genomic DNA (gDNA) data: they perform various operations ranging from data concatenation, filtering, cleaning and analysis to visualization and data transformation.
-3. Use the functions from `get_references_map.py` for downloading large genomic data files: they automate the process of downloading, unzipping, and organizing genomic data files into specified directories.
-4. Use the functions from `data_processing_pre_imputation.py` for processing, filtering, and analyzing genomic data, particularly focused on single-cell (SC) genomics and consensus genomic DNA (gDNA) data.
-5. Use the functions from `get_positions_to_exclude.py` to .
-6. Use the functions from `imputation.py` to performs genetic imputation for each chromosome.
-7. Use the functions from `data_processing_post_imputation.py` to .
-8. Use the functions from `creating_statistics.py` to .
-9. Use the functions from `creating_plots.py` to .
+To reproduce this analysis, it is essential to set up a Conda environment containing all the necessary libraries (specified in the `requirements.txt` file). After setting up the environment, it is important to run the following scripts in the specified order.
+
+1. Use the functions from `get_gdna_consensus.py` to manipulate and analyze genomic DNA (gDNA) data: they perform various operations ranging from data concatenation, filtering, cleaning and analysis to visualization and data transformation.
+2. Use the functions from `get_references_map.py` for downloading large genomic data files: they automate the process of downloading, unzipping, and organizing genomic data files into specified directories.
+3. Use the functions from `data_processing_pre_imputation.py` for processing, filtering, and analyzing genomic data, particularly focused on single-cell (SC) genomics and consensus genomic DNA (gDNA) data.
+4. Use the functions from `get_positions_to_exclude.py` to .
+5. Use the functions from `imputation.py` to performs genetic imputation for each chromosome.
+6. Use the functions from `data_processing_post_imputation.py` to .
+7. Use the functions from `creating_statistics.py` to .
+8. Use the functions from `creating_plots.py` to .
 
 ### Bioinformatic parameters <a name = "bioinformatic-parameters"></a>
 
