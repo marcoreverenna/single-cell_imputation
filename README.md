@@ -1,56 +1,54 @@
-# Validation of Beagle5.4 algorithm on single-cell SNP-array data
-
-<p align="left"> 
-    <br> Marco Reverenna - https://www.linkedin.com/in/marco-reverenna-151787190/
-</p>
-
----
-
-## 📝 Table of Contents
-
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Prerequisites and installing](#prerequisites_and_installing)
-- [Built Using](#built_using)
-- [Authors](#authors)
+# Statistical analysis on single-cell SNP array data and imputation
+Scripts to implement imputation on SNP-array data to fill the gaps on single-cell data and recover genetic information due to background noise caused by WGA 
+(whole-genome-amplification).
 
 
-## 🧐 About <a name = "about"></a>
-The objective of this project is to assess the performance of the Beagle 5.4 imputation algorithm on single-cell SNP array data.
-Single-cell SNP array data is less reliable compared to that obtained from bulk samples (gDNA) due to the altered signal received from the array technology, which is often not properly recognized.
-This results in a higher prevalence of missing values and values that do not match the more reliable ones found in gDNA.Therefore, an initial validation approach of the algorithm involves considering all autosomes, masking different percentages of the SNPs, considering 10 different lists of positions present in the array data, re-imputing them, and comparing the condition before and after imputation using similarity coefficients.
+### Table of contents
+- [Project](#project) - OAverview of the project's purpose and goals
+- [Getting started](#getting-started) - Instructions on how to begin with this project
+- [Bioinformatic para	Bmeters](#bioinformatic-parameters) - Explanation and details of the bioinformatic parameters used throughout the pipeline
+- [Repository structure](#repository-structure) - A layout of the repository's architecture, describing the purpose of each file or directory
+- [References](#references) - Tools used in the project
+- [Authors](#authors) - List of contributors to the project
+- [Acknowledgments](#acknowledgement) - Credits and thanks to those who helped with the project
 
-## 🏁 Getting Started <a name = "getting_started"></a>
-These instructions provide the means to establish a functional copy of the project on either your local device or your genomedk profile. Given the computationally intensive nature of the imputation algorithm in the validation phase, it is highly recommended to leverage a High-Performance Computing (HPC) system, such as [Genomedk](https://genome.au.dk/), to optimize and expedite the workflow as much as possible.
 
-### 🔧 Prerequisites and installing <a name = "prerequisites_and_installing"></a>
-As previously mentioned, it is advisable to execute the script on HPC(Genome DK). For this project, a package manager called [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html "Conda") is employed, containing all the necessary packages to derive results solely from the shareable raw data stored in the repository. [Git](https://github.com/git-guides/install-git "Git") is utilized to download the entire project. For further details regarding the reference materials and map files, please refer to the algorithm's page on [Beagle5.4](https://faculty.washington.edu/browning/beagle/beagle.html).
+### Project <a name = "project"></a>
+The repository shows some statistics related on SNP-array data in order to understand if imputation is able to
+reintegrate the loss information presente in single-cell data. The analysis begins with the creation of a bulk reference considering
+five different bulk data, followed by un pre processing dei dati. Subsequently, l'analisi procede con il calcolo di coefficienti di similarita
+e recall per comparare le situazione che precede e segue l'imputazione. Finally, vengono compiute delle statistiche descrittive e creati
+dei plots per mostrare i risultati ottenuti.
 
-1. Install dependencies into isolated environment
-```
-conda env create --name imp_proj --file environment.yml
-```
-2. Request resources in HPC (Genome DK) 
-```
-srun --job-name=imputation_beagle --account your-account --partition normal --mem-per-cpu 10G --cpus-per-task 10 --time 2:00:00 --pty /bin/bash
-```
-3. Activate environment
-```
-source activate imp_proj
-```
-4. Run python script to create consensus bulk dataframe
-```
-python consensus_gDNA.py
-```
-5. Run main.py
-```
-python main.py
-```
+### Getting started
+1. Set up the conda environment so install required libraries (specified in `requirements.txt` file).
+2. Use the functions from `get_gdna_consensus.py` to .
+3. Use the functions from `get_references_map.py` to .
+4. Use the functions from `data_processing_pre_imputation.py` to .
+5. Use the functions from `get_positions_to_exclude.py` to .
+6. Use the functions from `imputation.py` to .
+7. Use the functions from `data_processing_post_imputation.py` to .
+8. Use the functions from `creating_statistics.py` to .
+9. Use the functions from `creating_plots.py` to .
 
-## ⛏️ Built Using <a name = "built_using"></a>
-- [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html "Conda") - Conda environment
-- [Git](https://github.com/git-guides/install-git "Git") - Git system
-- [GenomeDK](https://genome.au.dk/) - Server Environment
-- [Beagle5.4](https://faculty.washington.edu/browning/beagle/beagle.html) - Imputation algorithm
-## ✍️ Authors <a name = "authors"></a>
-- [@marcoreverenna](https://github.com/marcoreverenna)
+### Repository structure
+|File |Description|
+|:---:|-----------|
+|[data/](data/)|This folder must contain another folder called "raw" in which there should be your personal input data included single-cell and bulk VCF files|
+|[requeriments.txt](requeriments.txt)|File with names and versions of packages installed in the virtual environment to run the imputation|
+|[beagle.22Jul22.46e.jar](beagle.22Jul22.46e.jar)|Beagle imputation tool to perform the imputation|
+
+
+## References <a name = references"></a>
+- [Beagle5.4](https://www.beagle.com)
+
+## Authors <a name = "authors"></a
+Contact me at marcor@dtu.dk for more detail or explanations.
+- [marcor@dtu.dk](https://github.com/marcoreverenna)
+
+## Acknowledgements <a name = "acknowledgement"></a>
+I would like to extend my heartfelt gratitude to [KU](https://www.ku.dk/) and CCS (Center for Chromosome Stability) for providing the essential resources
+and support that have been fundamental in the development and success of [Eva Hoffmann group](https://www.hoffmann-group-lab.dk) projects.
+
+
+
